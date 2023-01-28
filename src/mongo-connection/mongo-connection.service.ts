@@ -1,10 +1,11 @@
 import { ConfigService } from '@nestjs/config';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Connection, createConnection } from 'mongoose';
 
 @Injectable()
 export class MongoConnectionService {
   private dbConnection: Connection;
+  private readonly logger = new Logger(MongoConnectionService.name);
 
   constructor(private configService: ConfigService) {
     this.createConnection();
@@ -19,14 +20,14 @@ export class MongoConnectionService {
       'DB_HOST',
     )}:${this.configService.get<string>(
       'DB_PORT',
-    )}/${this.configService.get<string>('DB')}?authSorce=admin`;
+    )}/${this.configService.get<string>('DB')}?authSource=admin`;
 
     this.dbConnection = await createConnection(URI);
     this.dbConnection.once('open', () => {
-      console.log('Se conecto correctamente a la base de datos.');
+      this.logger.log('Se conectó correctamente a la base de datos.');
     });
     this.dbConnection.once('error', () => {
-      console.log('Hubo un problema con la conexión a la base de datos.');
+      this.logger.error('Hubo un problema con la conexión a la base de datos.');
     });
   }
 }
