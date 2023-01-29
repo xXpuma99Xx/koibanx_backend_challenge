@@ -14,13 +14,11 @@ export class MongoConnectionService {
   async createConnection() {
     const URI = `mongodb://${this.configService.get<string>(
       'DB_USER',
-    )}:${this.configService.get<string>(
-      'DB_PASSWORD',
-    )}@${this.configService.get<string>(
-      'DB_HOST',
-    )}:${this.configService.get<string>(
-      'DB_PORT',
-    )}/${this.configService.get<string>('DB')}?authSource=admin`;
+    )}:${this.configService.get<string>('DB_PASSWORD')}@${
+      this.configService.get<string>('DB_HOST') || 'localhost'
+    }:${
+      this.configService.get<string>('DB_PORT') || 27017
+    }/${this.configService.get<string>('DB')}?authSource=admin`;
 
     this.dbConnection = await createConnection(URI);
     this.dbConnection.once('open', () => {
