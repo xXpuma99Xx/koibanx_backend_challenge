@@ -12,6 +12,6 @@ export class AuthService {
       data: moment().toString(),
     };
 
-    return { token: this.jwtService.sign(jwtPayload) }; // "Firmamos"/creamos el token
+    return { token: this.jwtService.sign(jwtPayload) }; // "Firmamos"/creamos un token
   }
 }
