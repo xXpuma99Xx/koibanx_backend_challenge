@@ -39,18 +39,18 @@ export class ExcelController {
   })
   @ApiBearerAuth('jwt')
   @ApiQuery({
+    description: 'Id del archivo excel a consultar.',
+    name: 'id_excel',
+    type: 'string',
+  })
+  @ApiQuery({
     description: 'Página en la que se encuentra el operador.',
     name: 'pagina',
     type: 'string',
   })
-  @ApiQuery({
-    description: 'Id de la tarea a consultar.',
-    name: 'id_tarea',
-    type: 'string',
-  })
   errores(@Query() query: ErroresDto) {
     return this.excelService.findAllErroresByIdTarea(
-      +query.id_tarea,
+      +query.id_excel,
       +query.pagina,
     );
   }
@@ -59,16 +59,16 @@ export class ExcelController {
   @Get('status')
   @ApiOperation({
     description:
-      'Enpoint que sirve para consultar el estado de una tarea de procesamiento de un archivo de excel.',
+      'Enpoint que sirve para consultar el estado del procesamiento de un archivo de excel.',
   })
   @ApiBearerAuth('jwt')
   @ApiQuery({
-    description: 'Id de la tarea a consultar.',
-    name: 'id_tarea',
+    description: 'Id del archivo excel a consultar.',
+    name: 'id_excel',
     type: 'string',
   })
   status(@Query() query: StatusDto) {
-    return this.excelService.findByIdTarea(+query.id_tarea);
+    return this.excelService.findByIdTarea(+query.id_excel);
   }
 
   @Serealize(CargaOutputDto)
@@ -89,10 +89,8 @@ export class ExcelController {
     },
   })
   upload(@Request() req, @UploadedFile() file: Express.Multer.File) {
-    const path = file ? `${file.destination}/${file.filename}` : null;
-
-    console.log(req.user);
     if (!file) throw new BadRequestException('No se mandó ningún archivo.');
-    return this.excelService.cargarExcel(path);
+    console.log(req.user);
+    return this.excelService.cargarExcel(file);
   }
 }

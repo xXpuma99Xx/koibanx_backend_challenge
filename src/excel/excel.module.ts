@@ -2,6 +2,9 @@ import { ConflictException, Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { ExcelController } from './excel.controller';
 import { ExcelService } from './excel.service';
+import { MongoConnectionService } from '../mongo-connection/mongo-connection.service';
+import { ExcelInterface } from './interfaces/excel.interface';
+import { ExcelSchema } from './schemas/excel.schema';
 
 @Module({
   imports: [
@@ -21,6 +24,16 @@ import { ExcelService } from './excel.service';
     }),
   ],
   controllers: [ExcelController],
-  providers: [ExcelService],
+  providers: [
+    ExcelService,
+    {
+      provide: 'EXCEL_MODEL',
+      inject: [MongoConnectionService],
+      useFactory: (db: MongoConnectionService) =>
+        db
+          .getConnection()
+          .model<ExcelInterface>('Excel', ExcelSchema, 'excels'),
+    },
+  ],
 })
 export class ExcelModule {}

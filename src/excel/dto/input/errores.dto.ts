@@ -2,7 +2,7 @@ import { IsNumberString } from 'class-validator';
 
 export class ErroresDto {
   @IsNumberString()
-  id_tarea: string;
+  id_excel: string;
 
   @IsNumberString()
   pagina: string;

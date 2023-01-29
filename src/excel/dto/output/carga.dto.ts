@@ -2,8 +2,8 @@ import { Expose } from 'class-transformer';
 
 export class CargaOutputDto {
   @Expose()
-  id_tarea: number;
+  id_excel;
 
   @Expose()
-  message: string;
+  message;
 }
