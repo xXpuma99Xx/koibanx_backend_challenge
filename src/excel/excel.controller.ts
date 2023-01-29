@@ -31,12 +31,13 @@ import { StatusOutputDto } from './dto/output/status.dto';
 export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
-  @Serealize(ErroresDto)
+  // @Serealize()
   @Get('errores')
   @ApiOperation({
     description:
       'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
   })
+  @ApiBearerAuth('jwt')
   @ApiQuery({
     description: 'Página en la que se encuentra el operador.',
     name: 'pagina',
@@ -47,8 +48,12 @@ export class ExcelController {
     name: 'id_tarea',
     type: 'string',
   })
-  @ApiBearerAuth('jwt')
-  errores(@Query() query: StatusDto) {}
+  errores(@Query() query: ErroresDto) {
+    return this.excelService.findAllErroresByIdTarea(
+      +query.id_tarea,
+      +query.pagina,
+    );
+  }
 
   @Serealize(StatusOutputDto)
   @Get('status')
@@ -56,13 +61,15 @@ export class ExcelController {
     description:
       'Enpoint que sirve para consultar el estado de una tarea de procesamiento de un archivo de excel.',
   })
+  @ApiBearerAuth('jwt')
   @ApiQuery({
     description: 'Id de la tarea a consultar.',
     name: 'id_tarea',
     type: 'string',
   })
-  @ApiBearerAuth('jwt')
-  status(@Query() query: StatusDto) {}
+  status(@Query() query: StatusDto) {
+    return this.excelService.findByIdTarea(+query.id_tarea);
+  }
 
   @Serealize(CargaOutputDto)
   @Post('upload')
