@@ -8,6 +8,7 @@ import { ExcelService } from './excel.service';
     MulterModule.register({
       dest: './upload',
       fileFilter: (req, file, cb) => {
+        // Validamos que el archivo cargado sea de una extención de archivos de excel
         if (
           !file.originalname.match(/\.(xls|xlsx|xlsm|xlsb|xltm|xlam|xlr|xlw)/)
         )
