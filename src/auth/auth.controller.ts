@@ -13,7 +13,7 @@ export class AuthController {
   @Post('generar-token')
   @ApiOperation({
     description:
-      'Endpoint que genera un token. Este token se usará para poder usar el resto de los endpoints.',
+      'Endpoint que genera un token. Este token es necesario para poder usar el resto de los endpoints.',
   })
   generarToken() {
     return this.authService.generarToken();

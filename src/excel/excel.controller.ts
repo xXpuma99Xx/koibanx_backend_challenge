@@ -91,8 +91,8 @@ export class ExcelController {
   upload(@Request() req, @UploadedFile() file: Express.Multer.File) {
     const path = file ? `${file.destination}/${file.filename}` : null;
 
-    console.log(req.payload);
+    console.log(req.user);
     if (!file) throw new BadRequestException('No se mandó ningún archivo.');
-    // return this.excelService.createEquipos(path);
+    return this.excelService.cargarExcel(path);
   }
 }

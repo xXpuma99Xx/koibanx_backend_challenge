@@ -28,4 +28,8 @@ export class MongoConnectionService {
       this.logger.error('Hubo un problema con la conexión a la base de datos.');
     });
   }
+
+  getConnection(): Connection {
+    return this.dbConnection;
+  }
 }

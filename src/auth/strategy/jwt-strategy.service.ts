@@ -20,8 +20,8 @@ export class JwtStrategyService extends PassportStrategy(Strategy) {
   */
   async validate(payload: JwtPayload) {
     /*
-      Lo que regrese esta función se puede extraer de Request en el controller.
-      En este caso se extrae de req.payload
+      Lo que regrese esta función se puede extraer de req.user del decorador
+      Request en el controller.
     */
     return payload;
   }
