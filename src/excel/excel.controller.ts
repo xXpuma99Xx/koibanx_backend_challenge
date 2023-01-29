@@ -17,18 +17,20 @@ export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
   // @Serealize(MessageOutputDto)
-  @Post('carga-masiva-equipos')
+  @Post('upload')
   // @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(FileInterceptor('csv'))
-  @ApiBearerAuth('jwt')
+  @UseInterceptors(FileInterceptor('archivoExcel'))
+  // @ApiBearerAuth('jwt')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
+    description:
+      'Endpoint que sube al servidor un archivo. El archivo debe ser una extención de excel válida.',
     schema: {
       type: 'object',
-      properties: { csv: { type: 'string', format: 'binary' } },
+      properties: { archivoExcel: { type: 'string', format: 'binary' } },
     },
   })
-  cargaMasivaEquipos(@UploadedFile() file: Express.Multer.File) {
+  upload(@UploadedFile() file: Express.Multer.File) {
     const path = file ? `${file.destination}/${file.filename}` : null;
 
     if (!file) throw new BadRequestException('No se mandó ningún archivo.');
