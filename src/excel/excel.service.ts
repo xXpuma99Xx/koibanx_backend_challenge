@@ -11,13 +11,14 @@ export class ExcelService {
     private excelModel: Model<ExcelInterface>,
   ) {}
 
-  cargarExcel(file: Express.Multer.File): {
+  async cargarExcel(file: Express.Multer.File): Promise<{
     message: string;
     id_excel: string;
-  } {
+  }> {
     const excel = new this.excelModel({ id_excel: file.filename });
     const path = file ? `${file.destination}/${file.filename}` : null;
 
+    await excel.save();
     readXlsxFile(path, { schema: ExelFileSchema }).then(({ rows, errors }) => {
       console.log(rows);
       console.log(errors);
@@ -28,7 +29,18 @@ export class ExcelService {
     };
   }
 
-  findAllErroresByIdTarea(id_excel: number, pagina: number) {}
+  async findAllErroresByIdTarea(id_excel: number, pagina: number) {
+    const filter = {};
 
-  findByIdTarea(id_excel: number) {}
+    filter['name'] = {};
+    return this.excelModel.find().then((excel) => {
+      console.log(excel);
+    });
+  }
+
+  async findByIdTarea(id_excel: number) {
+    return this.excelModel.findOne().then((excel) => {
+      console.log(excel);
+    });
+  }
 }
