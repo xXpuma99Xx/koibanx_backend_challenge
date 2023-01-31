@@ -32,28 +32,34 @@ export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
   // @Serealize()
-  // @Get('errores')
-  // @ApiOperation({
-  //   description:
-  //     'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
-  // })
-  // @ApiBearerAuth('jwt')
-  // @ApiQuery({
-  //   description: 'Id del archivo excel a consultar.',
-  //   name: 'id_excel',
-  //   type: 'string',
-  // })
-  // @ApiQuery({
-  //   description: 'Página en la que se encuentra el operador.',
-  //   name: 'pagina',
-  //   type: 'string',
-  // })
-  // errores(@Query() query: ErroresDto) {
-  //   return this.excelService.findAllErroresByIdExcel(
-  //     query.id_excel,
-  //     +query.pagina,
-  //   );
-  // }
+  @Get('errores')
+  @ApiOperation({
+    description:
+      'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
+  })
+  @ApiBearerAuth('jwt')
+  @ApiQuery({
+    description: 'Id del archivo excel a consultar.',
+    name: 'id_excel',
+    type: 'string',
+  })
+  @ApiQuery({
+    description: 'Página en la que se encuentra el operador.',
+    name: 'pagina',
+    type: 'string',
+  })
+  @ApiQuery({
+    description: 'Número de elementos por página.',
+    name: 'perPage',
+    type: 'string',
+  })
+  errores(@Query() query: ErroresDto) {
+    return this.excelService.findAllErrores(
+      query.id_excel,
+      parseInt(query.pagina),
+      parseInt(query.perPage),
+    );
+  }
 
   @Serealize(StatusOutputDto)
   @Get('status')

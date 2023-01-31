@@ -7,4 +7,7 @@ export class ErroresDto {
 
   @IsNumberString()
   pagina: string;
+
+  @IsNumberString()
+  perPage: string;
 }

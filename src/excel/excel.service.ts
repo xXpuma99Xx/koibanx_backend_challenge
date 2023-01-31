@@ -1,6 +1,11 @@
 import { Document, Model, Types } from 'mongoose';
 import readXlsxFile from 'read-excel-file/node';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ExelFileSchema } from './schemas/excel-file.schema';
 import { ExcelInterface } from './interfaces/excel.interface';
 import { DataService } from '../data/data.service';
@@ -72,25 +77,41 @@ export class ExcelService {
     };
   }
 
-  // async findAllErroresByIdExcel(
-  //   id_excel: string,
-  //   pagina: number,
-  // ): Promise<
-  //   (Document<unknown, any, ExcelInterface> &
-  //     ExcelInterface & {
-  //       _id: Types.ObjectId;
-  //     })[]
-  // > {
-  //   const filter = {};
+  findAllData(id_excel: string): Promise<Types.ObjectId[]> {
+    return this.excelModel
+      .findOne({ id_excel })
+      .populate(['data'])
+      .then((excel) => {
+        if (!excel)
+          throw new NotFoundException('No existe un registro con este id.');
+        return excel.data;
+      });
+  }
 
-  //   filter['name'] = {};
-  //   return this.excelModel.find().then((excels) => {
-  //     console.log(excels);
-  //     return excels;
-  //   });
-  // }
+  findAllErrores(
+    id_excel: string,
+    pagina: number,
+    perPage: number,
+  ): Promise<Types.ObjectId[]> {
+    if (pagina <= 0)
+      throw new BadRequestException('Página no puede ser menor que 0');
+    return this.excelModel
+      .findOne({ id_excel })
+      .populate([
+        {
+          path: 'errores',
+          perDocumentLimit: perPage,
+          options: { skip: perPage * (pagina - 1) },
+        },
+      ])
+      .then((excel) => {
+        if (!excel)
+          throw new NotFoundException('No existe un registro con este id.');
+        return excel.errores;
+      });
+  }
 
-  async findByIdExcel(id_excel: string): Promise<
+  findByIdExcel(id_excel: string): Promise<
     Document<unknown, any, ExcelInterface> &
       ExcelInterface & {
         _id: Types.ObjectId;
