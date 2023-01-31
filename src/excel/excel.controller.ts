@@ -24,6 +24,7 @@ import { ExcelService } from './excel.service';
 import { StatusDto } from './dto/input/status.dto';
 import { ErroresDto } from './dto/input/errores.dto';
 import { CargaOutputDto } from './dto/output/carga.dto';
+import { ErroresOutputDto } from './dto/output/errores.dto';
 import { StatusOutputDto } from './dto/output/status.dto';
 
 @Controller('excel')
@@ -31,7 +32,7 @@ import { StatusOutputDto } from './dto/output/status.dto';
 export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
-  // @Serealize()
+  @Serealize(ErroresOutputDto)
   @Get('errores')
   @ApiOperation({
     description:
