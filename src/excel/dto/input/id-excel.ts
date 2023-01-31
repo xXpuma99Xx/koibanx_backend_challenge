@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class StatusDto {
+export class IdExcelDto {
   @IsString()
   @IsNotEmpty()
   id_excel: string;

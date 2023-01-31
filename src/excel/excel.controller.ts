@@ -21,9 +21,10 @@ import {
 } from '@nestjs/swagger';
 import { Serealize } from '../interceptors/serialize.interceptor';
 import { ExcelService } from './excel.service';
-import { StatusDto } from './dto/input/status.dto';
+import { IdExcelDto } from './dto/input/id-excel';
 import { ErroresDto } from './dto/input/errores.dto';
 import { CargaOutputDto } from './dto/output/carga.dto';
+import { DataOutputDto } from './dto/output/data.dto';
 import { ErroresOutputDto } from './dto/output/errores.dto';
 import { StatusOutputDto } from './dto/output/status.dto';
 
@@ -32,8 +33,26 @@ import { StatusOutputDto } from './dto/output/status.dto';
 export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
+  @Serealize(DataOutputDto)
+  @Get('data')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({
+    description:
+      'Enpoint que sirve para consultar la información válida que se mando en el excel.',
+  })
+  @ApiBearerAuth('jwt')
+  @ApiQuery({
+    description: 'Id del archivo excel a consultar.',
+    name: 'id_excel',
+    type: 'string',
+  })
+  data(@Query() query: IdExcelDto) {
+    return this.excelService.findAllData(query.id_excel);
+  }
+
   @Serealize(ErroresOutputDto)
   @Get('errores')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({
     description:
       'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
@@ -64,6 +83,7 @@ export class ExcelController {
 
   @Serealize(StatusOutputDto)
   @Get('status')
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({
     description:
       'Enpoint que sirve para consultar el estado del procesamiento de un archivo de excel.',
@@ -74,7 +94,7 @@ export class ExcelController {
     name: 'id_excel',
     type: 'string',
   })
-  status(@Query() query: StatusDto) {
+  status(@Query() query: IdExcelDto) {
     return this.excelService.findByIdExcel(query.id_excel);
   }
 
