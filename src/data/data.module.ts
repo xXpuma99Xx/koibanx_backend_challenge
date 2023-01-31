@@ -14,5 +14,6 @@ import { DataSchema } from './schemas/data.schema';
         db.getConnection().model<DataInterface>('Data', DataSchema, 'data'),
     },
   ],
+  exports: [DataService],
 })
 export class DataModule {}

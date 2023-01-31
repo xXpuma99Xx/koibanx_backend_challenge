@@ -5,9 +5,13 @@ import { ExcelService } from './excel.service';
 import { MongoConnectionService } from '../mongo-connection/mongo-connection.service';
 import { ExcelInterface } from './interfaces/excel.interface';
 import { ExcelSchema } from './schemas/excel.schema';
+import { DataModule } from '../data/data.module';
+import { ErrorModule } from '../error/error.module';
 
 @Module({
   imports: [
+    DataModule,
+    ErrorModule,
     MulterModule.register({
       dest: './upload',
       fileFilter: (req, file, cb) => {

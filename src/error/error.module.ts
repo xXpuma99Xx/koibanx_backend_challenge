@@ -14,5 +14,6 @@ import { ErrorSchema } from './schemas/error.schema';
         db.getConnection().model<ErrorInterface>('Error', ErrorSchema, 'error'),
     },
   ],
+  exports: [ErrorService],
 })
 export class ErrorModule {}
