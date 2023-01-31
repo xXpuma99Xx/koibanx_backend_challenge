@@ -32,28 +32,28 @@ export class ExcelController {
   constructor(private excelService: ExcelService) {}
 
   // @Serealize()
-  @Get('errores')
-  @ApiOperation({
-    description:
-      'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
-  })
-  @ApiBearerAuth('jwt')
-  @ApiQuery({
-    description: 'Id del archivo excel a consultar.',
-    name: 'id_excel',
-    type: 'string',
-  })
-  @ApiQuery({
-    description: 'Página en la que se encuentra el operador.',
-    name: 'pagina',
-    type: 'string',
-  })
-  errores(@Query() query: ErroresDto) {
-    return this.excelService.findAllErroresByIdTarea(
-      +query.id_excel,
-      +query.pagina,
-    );
-  }
+  // @Get('errores')
+  // @ApiOperation({
+  //   description:
+  //     'Enpoint que sirve para consultar los errores que tuvo un archivo de excel.',
+  // })
+  // @ApiBearerAuth('jwt')
+  // @ApiQuery({
+  //   description: 'Id del archivo excel a consultar.',
+  //   name: 'id_excel',
+  //   type: 'string',
+  // })
+  // @ApiQuery({
+  //   description: 'Página en la que se encuentra el operador.',
+  //   name: 'pagina',
+  //   type: 'string',
+  // })
+  // errores(@Query() query: ErroresDto) {
+  //   return this.excelService.findAllErroresByIdExcel(
+  //     query.id_excel,
+  //     +query.pagina,
+  //   );
+  // }
 
   @Serealize(StatusOutputDto)
   @Get('status')
@@ -68,7 +68,7 @@ export class ExcelController {
     type: 'string',
   })
   status(@Query() query: StatusDto) {
-    return this.excelService.findByIdTarea(+query.id_excel);
+    return this.excelService.findByIdExcel(query.id_excel);
   }
 
   @Serealize(CargaOutputDto)

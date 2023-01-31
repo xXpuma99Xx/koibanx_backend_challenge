@@ -1,7 +1,8 @@
-import { IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
 
 export class ErroresDto {
-  @IsNumberString()
+  @IsString()
+  @IsNotEmpty()
   id_excel: string;
 
   @IsNumberString()

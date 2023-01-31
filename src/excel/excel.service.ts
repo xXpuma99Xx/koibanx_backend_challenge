@@ -1,6 +1,6 @@
-import { Model } from 'mongoose';
+import { Document, Model, Types } from 'mongoose';
 import readXlsxFile from 'read-excel-file/node';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ExelFileSchema } from './schemas/excel-file.schema';
 import { ExcelInterface } from './interfaces/excel.interface';
 
@@ -29,18 +29,34 @@ export class ExcelService {
     };
   }
 
-  async findAllErroresByIdTarea(id_excel: number, pagina: number) {
-    const filter = {};
+  // async findAllErroresByIdExcel(
+  //   id_excel: string,
+  //   pagina: number,
+  // ): Promise<
+  //   (Document<unknown, any, ExcelInterface> &
+  //     ExcelInterface & {
+  //       _id: Types.ObjectId;
+  //     })[]
+  // > {
+  //   const filter = {};
 
-    filter['name'] = {};
-    return this.excelModel.find().then((excel) => {
-      console.log(excel);
-    });
-  }
+  //   filter['name'] = {};
+  //   return this.excelModel.find().then((excels) => {
+  //     console.log(excels);
+  //     return excels;
+  //   });
+  // }
 
-  async findByIdTarea(id_excel: number) {
-    return this.excelModel.findOne().then((excel) => {
-      console.log(excel);
+  async findByIdExcel(id_excel: string): Promise<
+    Document<unknown, any, ExcelInterface> &
+      ExcelInterface & {
+        _id: Types.ObjectId;
+      }
+  > {
+    return this.excelModel.findOne({ id_excel }).then((excel) => {
+      if (!excel)
+        throw new NotFoundException('No existe un registro con este id.');
+      return excel;
     });
   }
 }
