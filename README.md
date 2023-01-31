@@ -1,37 +1,25 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Code challenge Koibanx
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Para poder inicializar correctamente esta app, primero se deben hacer unos ajustes. Este proyecto cuenta con un archivo ejemplo.env el cual contiene todas las variables de entorno que este proyecto puede tener, ya que no todas son necesarias, y un ejemplo.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- API_PORT (opcional): Esta variable recibe el puerto por el cual se quiere exponer la api. Por default se expone por el puerto 3000.
+- DB_HOST (opcional): Esta variable recibe el host por el cual se desea conectar a una db de mongo. Por default tiene 'localhost'.
+- DB_PORT (opcional): Esta variable recibe el puerto por el cual se expone la conexión a una db de mongo. Por default tiene el puerto 27017.
+- DB_USER: Esta variable recibe el usuario con el cual se va a autentificar par acceder a la db.
+- DB_PASSWORD: Esta variable recibe la password con la cual se va a autentificar eu usuario.
+- DB: Esta variable recibe el nombre que de la db a la que se va acceder o que se desea crear si no existe.
+- AUTH_SECRETKEY: Esta variable recibe una string que nos sirve para encriptar nuestros tokens. Puede ser una string cualquiera.
 
-## Description
+Contamos con que el authSource se va a sacar de 'admin'.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
+Una vez tengamos un archivo .env que contenga las variables minimas corremos lo siguiente: 
 ## Installation
 
 ```bash
 $ npm install
 ```
 
+Posteriormente a la instalación de las dependencias del proyecto podemos correr cualquiera de los siguientes comandos. Recomendamos usar el segundo.
 ## Running the app
 
 ```bash
@@ -45,29 +33,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+Una vez inicializada la app, en nuestro navegador deberemos ir a http://localhost:3000/api. Ahí encontraremos toda la documentación de los endpoints.
 
-```bash
-# unit tests
-$ npm run test
+## Pasos para poder usar la api
 
-# e2e tests
-$ npm run test:e2e
+1) Debemos generar un token usando el único endpoint que se encuentra en auth. 
 
-# test coverage
-$ npm run test:cov
-```
+Para poder usar los endpoints basta con dar en el botón que dice 'Try' y posteriormente el que dice 'Execute'.
 
-## Support
+2) Cuando hayamos obtenido este token, hasta arriba a la derecha veremos un botón de un candado, le damos click y se nos abrirá un alert donde debemos insertar el token que acabamos de generar.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+3) Una vez declarado el token podremos usar el resto de los endpoints, por lo tanto tenemos que subir un archivo de excel con el endpoint correspondiente y usar los demas para obtener información de ese archivo.
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
