@@ -1,8 +1,6 @@
 import { Document, Model, Types } from 'mongoose';
 import readXlsxFile from 'read-excel-file/node';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { DataInterface } from '../data/interfaces/data.interface';
-import { ErrorInterface } from '../error/interfaces/error.interface';
 import { ExelFileSchema } from './schemas/excel-file.schema';
 import { ExcelInterface } from './interfaces/excel.interface';
 import { DataService } from '../data/data.service';
@@ -21,41 +19,53 @@ export class ExcelService {
     message: string;
     id_excel: string;
   }> {
-    const path = file ? `${file.destination}/${file.filename}` : null;
+    // Generamos un registro. El id_excel es el generado por el multer
     const excel = new this.excelModel({ id_excel: file.filename });
     const data: Types.ObjectId[] = [];
     const errores: Types.ObjectId[] = [];
 
-    await excel.save();
-    readXlsxFile(path, { schema: ExelFileSchema }).then(
-      async ({ rows, errors }) => {
-        for (let i = 0; i < rows.length; i++) {
-          // @ts-expect-error
-          if (rows[i].age && rows[i].name)
-            data.push(
-              // @ts-expect-error
-              (await this.dataService.create(rows[i].age, rows[i].name))._id,
-            );
-        }
-        for (let i = 0; i < errors.length; i++)
-          errores.push(
-            (
-              await this.errorService.create(
-                errors[i].column,
-                errors[i].error,
-                errors[i].row,
-                `${errors[i].value}`,
-                errors[i].reason,
-              )
-            )._id,
+    await excel.save(); // Guardamos registro
+    // asincronamente leemos el archivo de excel
+    readXlsxFile(`${file.destination}/${file.filename}`, {
+      schema: ExelFileSchema,
+    }).then(async ({ rows, errors }) => {
+      // Recorremos el array de filas que si cumplieron con los criterios
+      for (let i = 0; i < rows.length; i++) {
+        /*
+          Ya que una celda pudo haber pasado los criterios necesario y la otra no, 
+          validamos que ambas celdas de la fila sean válidas para poder generar un registro.
+        */
+        // @ts-expect-error
+        if (rows[i].age && rows[i].name)
+          data.push(
+            // Generamos el registro
+            // @ts-expect-error
+            (await this.dataService.create(rows[i].age, rows[i].name))._id,
           );
-
-        excel.data = data;
-        excel.errores = errores;
-        excel.status = 'done';
-        await excel.save();
-      },
-    );
+      }
+      // Recorremos el array de celdas que no cumplieron con los criterios
+      for (let i = 0; i < errors.length; i++)
+        errores.push(
+          // Generamos el registro
+          (
+            await this.errorService.create(
+              errors[i].column,
+              errors[i].error,
+              errors[i].row,
+              `${errors[i].value}`,
+              errors[i].reason,
+            )
+          )._id,
+        );
+      // Asignamos registros al objeto excel
+      excel.data = data;
+      excel.errores = errores;
+      // Una vez concluido el proceso cambiamos el status a "done"
+      excel.status = 'done';
+      // Guardamos cambios
+      await excel.save();
+    });
+    // Retornamos el id del registro del archivo de excel
     return {
       message: 'Se subió tu archivo correctamente.',
       id_excel: excel.id_excel,
