@@ -33,13 +33,20 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+Debe salir un mensaje como este
+
+```bash
+[Nest] 2200  - 01/31/2023, 8:52:13 AM     LOG [NestApplication] Nest application successfully started +2ms
+[Nest] 2200  - 01/31/2023, 8:52:13 AM     LOG [MongoConnectionService] Se conectó correctamente a la base de datos.
+```
+
 Una vez inicializada la app, en nuestro navegador deberemos ir a http://localhost:3000/api. Ahí encontraremos toda la documentación de los endpoints.
 
 ## Pasos para poder usar la api
 
 1) Debemos generar un token usando el único endpoint que se encuentra en auth. 
 
-Para poder usar los endpoints basta con dar en el botón que dice 'Try' y posteriormente el que dice 'Execute'.
+Para poder usar los endpoints basta con dar en el botón que dice 'Try it out', llenar los campos que pide si es que tiene alguno y posteriormente el que dice 'Execute'.
 
 2) Cuando hayamos obtenido este token, hasta arriba a la derecha veremos un botón de un candado, le damos click y se nos abrirá un alert donde debemos insertar el token que acabamos de generar.
 
