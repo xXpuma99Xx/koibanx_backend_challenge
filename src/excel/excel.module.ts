@@ -30,9 +30,7 @@ import { ExcelSchema } from './schemas/excel.schema';
       provide: 'EXCEL_MODEL',
       inject: [MongoConnectionService],
       useFactory: (db: MongoConnectionService) =>
-        db
-          .getConnection()
-          .model<ExcelInterface>('Excel', ExcelSchema, 'excels'),
+        db.getConnection().model<ExcelInterface>('Excel', ExcelSchema, 'excel'),
     },
   ],
 })
